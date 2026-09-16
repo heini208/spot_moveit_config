@@ -3,8 +3,8 @@
   <name>spot_moveit_config</name>
   <version>0.1.0</version>
   <description>Stationary Spot arm MoveIt 2 planning configuration.</description>
-  <maintainer email="marcel@example.com">Marcel</maintainer>
-  <license>TODO</license>
+  <maintainer email="mstemmeler@gmx.de">Marcel</maintainer>
+  <license>MIT</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>ament_index_python</exec_depend>
   <exec_depend>launch</exec_depend>

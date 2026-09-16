@@ -578,6 +578,13 @@
     <child link="arm_link_wr1"/>
     <limit effort="30.3" lower="-2.87979326579064354163" upper="2.87979326579064354163" velocity="10.0"/>
   </joint>
+  <!-- Spot SDK hand frame: wrist + 0.19557 m along local X, same orientation. -->
+  <link name="hand"/>
+  <joint name="arm_wr1_to_hand" type="fixed">
+    <parent link="arm_link_wr1"/>
+    <child link="hand"/>
+    <origin xyz="0.19557 0 0" rpy="0 0 0"/>
+  </joint>
   <link name="arm_link_fngr">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>

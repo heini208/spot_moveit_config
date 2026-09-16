@@ -1,6 +1,6 @@
 <robot name="spot">
   <group name="arm">
-    <chain base_link="body" tip_link="arm_link_wr1" />
+    <chain base_link="body" tip_link="hand" />
   </group>
   <group name="gripper">
     <joint name="arm_f1x" />
