@@ -7,9 +7,9 @@ joint_limits:
     has_acceleration_limits: true
     max_acceleration: 0.5
   arm_sh1:
-    # Project-specific 2 degree safety margin above the -pi hardware limit.
+    # Project-specific 2 degree planning margin above -pi, not a hardware limit.
     has_position_limits: true
-    min_position: -3.106686
+    min_position: -3.1066860685499065
     max_position: 0.5235987755982988
     has_velocity_limits: true
     max_velocity: 0.5
