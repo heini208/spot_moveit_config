@@ -16,8 +16,32 @@ ros2 launch spot_moveit_config demo.launch.py
 
 This starts a standalone preview with synthetic joint states, robot state publisher,
 MoveIt and RViz. Run separately from the real driver to avoid joint-state/TF conflicts.
+The demo restores the stock jaw collision shapes in its local robot description.
 Select `arm` in MotionPlanning, move the goal marker and use **Plan**.
 Execution is disabled. No robot controller or SDK connection is configured.
+
+## Sensor mount collision geometry
+
+The production `move_group.launch.py` uses an exchangeable jaw model. Its fixed,
+collisionless `sensor_head_slot` is at the SDK `hand` origin. The three forward
+jaw collision meshes (`front_jaw`, `middle_jaw`, `jaw_tooth`) are supplied at runtime
+as one attached collision object by `fault_detector_spot`; the wrist, rear housing,
+and moving finger retain their original collision geometry.
+
+Before each arm plan, the application installs and verifies either the confirmed
+sensor mount's saved mesh or the stock jaw for a confirmed **No sensor** state.
+The environment toggle applies to the mount too. Use the application's planning
+path with this production model; starting `move_group` alone does not populate
+the jaw slot. Other planning clients must coordinate with its scene owner.
+
+The application's `config/arm_collision.rviz` planning-scene display shows the
+installed attachment after planning preflight. Ordinary robot visual geometry
+still shows the stock gripper. The standalone demo retains the stock collision
+model and does not support swapping sensor heads.
+
+Rebuild `spot_moveit_config`, `fault_detector_msgs`, and `fault_detector_spot`
+together before the next application startup. This change requires the new model
+to be loaded once; later mount changes use planning-scene updates.
 
 ## Model choices and limits
 

@@ -1,5 +1,6 @@
 """Standalone planning preview; trajectory execution is disabled."""
 from pathlib import Path
+import xml.etree.ElementTree as ET
 import yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -9,11 +10,23 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
+def _stock_description(config):
+    # This standalone demo has no application owner to attach the stock jaw.
+    model = ET.fromstring((config / "spot.urdf").read_text())
+    wrist = model.find("link[@name='arm_link_wr1']")
+    for name in ("front_jaw.obj", "middle_jaw.obj", "jaw_tooth.obj"):
+        geometry = ET.SubElement(ET.SubElement(wrist, "collision"), "geometry")
+        ET.SubElement(geometry, "mesh", {
+            "filename": f"package://spot_description/meshes/arm/collision/{name}",
+        })
+    return ET.tostring(model, encoding="unicode")
+
+
 def generate_launch_description():
     config = Path(get_package_share_directory("spot_moveit_config")) / "config"
     def read_yaml(name):
         return yaml.safe_load((config / name).read_text())
-    description = {"robot_description": (config / "spot.urdf").read_text()}
+    description = {"robot_description": _stock_description(config)}
     params = {
         **description,
         "robot_description_semantic": (config / "spot.srdf").read_text(),
