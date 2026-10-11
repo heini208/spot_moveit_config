@@ -35,8 +35,10 @@ path with this production model; starting `move_group` alone does not populate
 the jaw slot. Other planning clients must coordinate with its scene owner.
 
 The application's `config/arm_collision.rviz` planning-scene display shows the
-installed attachment after planning preflight. Ordinary robot visual geometry
-still shows the stock gripper. The standalone demo retains the stock collision
+installed attachment after the application confirms the mount and synchronizes
+the scene while the arm is idle; no movement request is needed. The application
+API and BT runtime must be running as well as MoveIt. Ordinary robot visual
+geometry still shows the stock gripper. The standalone demo retains the stock collision
 model and does not support swapping sensor heads.
 
 Rebuild `spot_moveit_config`, `fault_detector_msgs`, and `fault_detector_spot`
@@ -44,6 +46,28 @@ together before the next application startup. This change requires the new model
 to be loaded once; later mount changes use planning-scene updates.
 
 ## Model choices and limits
+
+The four hips use closed convex collision meshes generated from the matching
+`spot_description` visual meshes. The upper-arm collision mesh contains both
+`arm_link_sh1` and `arm_link_hr0` visuals and the original collision envelope.
+These two links have an identity fixed joint, so their shared collision geometry
+remains on `arm_link_hr0`. The warning that `arm_link_sh1` has no collision of its
+own is expected; adding a duplicate there is unnecessary.
+
+The meshes preserve the source frames and enclose the supplied geometry, including
+its recesses. They are conservative approximations of the model, not a measured
+accuracy guarantee for the physical robot. Joint transforms, collision permissions,
+sensor-tip calibration, and the application's lidar filtering margins are unchanged.
+
+To regenerate these assets offline (requires Python, NumPy and SciPy):
+
+```bash
+python3 tools/generate_collision_meshes.py --source "$(ros2 pkg prefix spot_description)/share/spot_description"
+```
+
+Add `--check` to verify the checked-in files without rewriting them. Generated
+files record their input paths and checksums; their source license is included
+in `config/collision/LICENSE`.
 
 - `arm`: six active joints, from `body` to `hand`, using KDL IK and OMPL RRTConnect.
   The collision-less `hand` frame is 0.19557 m along wrist X with the same orientation,

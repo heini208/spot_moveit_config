@@ -63,6 +63,11 @@
         <mesh filename="package://spot_description/meshes/base/visual/front_left_hip.obj"/>
       </geometry>
     </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://spot_moveit_config/config/collision/front_left_hip.obj"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin rpy="-0.716521349312305 0.02956473059648479 0.03655230014702582" xyz="-0.005374345928430557 0.012841847725212574 9.875232353806496e-05"/>
       <mass value="1.68"/>
@@ -137,6 +142,11 @@
         <mesh filename="package://spot_description/meshes/base/visual/front_right_hip.obj"/>
       </geometry>
     </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://spot_moveit_config/config/collision/front_right_hip.obj"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin rpy="0.7165213493123055 -0.02956473059648479 0.03655230014702582" xyz="-0.005374345928430557 -0.012841847725212574 -9.875232353806496e-05"/>
       <mass value="1.68"/>
@@ -211,6 +221,11 @@
         <mesh filename="package://spot_description/meshes/base/visual/rear_left_hip.obj"/>
       </geometry>
     </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://spot_moveit_config/config/collision/rear_left_hip.obj"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin rpy="0.7165213493123055 -0.02956473059648479 0.03655230014702582" xyz="-0.005374345928430557 -0.012841847725212574 -9.875232353806496e-05"/>
       <mass value="1.68"/>
@@ -285,6 +300,11 @@
         <mesh filename="package://spot_description/meshes/base/visual/rear_right_hip.obj"/>
       </geometry>
     </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://spot_moveit_config/config/collision/rear_right_hip.obj"/>
+      </geometry>
+    </collision>
     <inertial>
       <origin rpy="0.7165213493123055 -0.02956473059648479 0.03655230014702582" xyz="-0.005374345928430557 -0.012841847725212574 -9.875232353806496e-05"/>
       <mass value="1.68"/>
@@ -396,6 +416,8 @@
     <child link="arm_link_sh0"/>
     <limit effort="90.9" lower="-2.61799387799149441136" upper="3.14159265358979311599" velocity="10.0"/>
   </joint>
+  <!-- sh1 and its identity-fixed hr0 child share one rigid segment.
+       Their combined collision envelope is owned by hr0. -->
   <link name="arm_link_sh1">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -431,7 +453,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://spot_description/meshes/arm/collision/arm_link_hr0.obj"/>
+        <mesh filename="package://spot_moveit_config/config/collision/arm_link_hr0.obj"/>
       </geometry>
     </collision>
     <inertial>

@@ -42,7 +42,7 @@
   <disable_collisions link1="rear_right_upper_leg" link2="rear_right_lower_leg" reason="Adjacent" />
   <disable_collisions link1="body" link2="arm_link_sh0" reason="Adjacent" />
   <disable_collisions link1="arm_link_sh0" link2="arm_link_sh1" reason="Adjacent" />
-  <!-- hr0 is fixed to collisionless sh1 at the shoulder joint origin. -->
+  <!-- hr0 owns the combined sh1/hr0 envelope and is fixed at the shoulder origin. -->
   <disable_collisions link1="arm_link_sh0" link2="arm_link_hr0" reason="Adjacent" />
   <disable_collisions link1="arm_link_sh1" link2="arm_link_hr0" reason="Adjacent" />
   <disable_collisions link1="arm_link_hr0" link2="arm_link_el0" reason="Adjacent" />
