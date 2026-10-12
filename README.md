@@ -41,6 +41,14 @@ API and BT runtime must be running as well as MoveIt. Ordinary robot visual
 geometry still shows the stock gripper. The standalone demo retains the stock collision
 model and does not support swapping sensor heads.
 
+The production server publishes its URDF and SRDF on
+`/spot_moveit_robot_description` and `/spot_moveit_robot_description_semantic`.
+The application's collision viewer selects this paired model using its
+`Robot Description: spot_moveit_robot_description` setting. The driver's generic
+`/robot_description` lacks the planning-specific hand and jaw-slot links and must
+not be combined with MoveIt's SRDF. Server parameter names remain
+`robot_description` and `robot_description_semantic` for planning and model queries.
+
 Rebuild `spot_moveit_config`, `fault_detector_msgs`, and `fault_detector_spot`
 together before the next application startup. This change requires the new model
 to be loaded once; later mount changes use planning-scene updates.

@@ -62,5 +62,11 @@ def generate_launch_description():
             name="move_group",
             output="screen",
             parameters=[move_group_parameters],
+            # The driver publishes a different URDF on /robot_description.
+            # Keep both planning-model topics paired for standalone RViz.
+            remappings=[
+                ("robot_description", "/spot_moveit_robot_description"),
+                ("robot_description_semantic", "/spot_moveit_robot_description_semantic"),
+            ],
         ),
     ])
