@@ -1,8 +1,8 @@
 """MoveIt planning server for the real Spot driver.
 
-This launch starts only move_group. It consumes the live /joint_states and TF
-published by the Spot ROS 2 stack and never starts synthetic state publishers or
-trajectory controllers.
+This launch consumes live /joint_states and TF from the Spot ROS 2 stack.
+It adds only the fixed jaw-slot TF needed by the occupancy self-filter, never
+synthetic joint states or trajectory controllers.
 """
 
 from pathlib import Path
@@ -68,5 +68,14 @@ def generate_launch_description():
                 ("robot_description", "/spot_moveit_robot_description"),
                 ("robot_description_semantic", "/spot_moveit_robot_description_semantic"),
             ],
+        ),
+        # The driver publishes hand, but its model does not contain this slot.
+        # MoveIt's URDF alone does not publish TF for the occupancy self-filter.
+        Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            name="sensor_head_slot_tf",
+            arguments=["--frame-id", "hand", "--child-frame-id", "sensor_head_slot"],
+            output="screen",
         ),
     ])

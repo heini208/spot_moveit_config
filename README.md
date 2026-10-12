@@ -26,7 +26,11 @@ The production `move_group.launch.py` uses an exchangeable jaw model. Its fixed,
 collisionless `sensor_head_slot` is at the SDK `hand` origin. The three forward
 jaw collision meshes (`front_jaw`, `middle_jaw`, `jaw_tooth`) are supplied at runtime
 as one attached collision object by `fault_detector_spot`; the wrist, rear housing,
-and moving finger retain their original collision geometry.
+and moving finger retain their original collision geometry. The production launch
+also publishes the identity `hand -> sensor_head_slot` static TF so the occupancy
+self-filter can resolve attached shapes. The driver remains the owner of live
+`hand` and arm TF; the standalone demo obtains the slot TF from its own robot
+state publisher.
 
 Before each arm plan, the application installs and verifies either the confirmed
 sensor mount's saved mesh or the stock jaw for a confirmed **No sensor** state.
